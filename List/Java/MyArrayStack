@@ -1,0 +1,51 @@
+package LIST;
+
+public class MyArrayStack<AnyType> extends MyArrayList {
+    private int topOfStack;//the index of the top of the stack
+    private int theSize;//the size of the stack
+    private AnyType[] theArray;//the items that store in the stack
+    private int DEFAULT_CAPACITY=100;
+
+    public MyArrayStack(){//create a MyArrayStack class
+        doClear();
+    }
+    public void clear(){
+        doClear();
+    }
+    private void doClear(){
+        theSize=0;
+        topOfStack=-1;
+        ensureCapacity(DEFAULT_CAPACITY);
+    }
+    public boolean isEmpty(){
+        return theSize == 0 ? true : false;
+    }
+    private void ensureCapacity(int newCapacity){
+        if(newCapacity<theSize)
+            return;
+        AnyType[] old=theArray;
+        theArray=(AnyType[]) new Object[newCapacity];
+        for(int i=0;i<size();i++)
+            theArray[i]=old[i];
+    }
+    public int size(){
+        return theSize;
+    }
+    public void push(AnyType val){//insert new item to the stack
+        if(theArray.length==size()){
+            ensureCapacity(size()*2+1);
+        }
+        topOfStack++;
+        theArray[topOfStack]=val;
+        theSize++;
+    }
+    public AnyType pop(){//delete the item from the stack
+        AnyType popItem=theArray[topOfStack];
+        topOfStack--;
+        theSize--;
+        return popItem;
+    }
+    public AnyType top(){//get the item which at top of the stack
+        return theArray[topOfStack];
+    }
+}
