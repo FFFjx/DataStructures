@@ -1,0 +1,51 @@
+package LIST;
+
+import java.util.NoSuchElementException;
+
+public class MyArrayQueue<AnyType> extends MyArrayList {
+    private AnyType[] theQueue;//the items that store in the queue
+    private int front;//the index of the front of the queue
+    private int back;//the index of the end of the queue
+    private int currentSize;
+    private int DEFAULT_CAPACITY=100;
+    public MyArrayQueue(){//create a MyArrayQueue
+        doClear();
+    }
+    public void clear(){
+        doClear();
+    }
+    private void doClear(){
+        AnyType[] newQueue=(AnyType[]) new Object[DEFAULT_CAPACITY];
+        theQueue=newQueue;
+        front=0;
+        back=-1;
+        currentSize=0;
+    }
+
+    public void enQueue(AnyType val){//insert new item to the queue from the front
+        if(back==theQueue.length-1){
+            back=0;
+        }
+        else back++;
+        theQueue[back]=val;
+        currentSize++;
+    }
+    public AnyType deQueue(){//delete the item from the end of the queue
+        if(isEmpty())
+            throw new NoSuchElementException();
+        AnyType deItem=theQueue[front];
+        if(front==theQueue.length-1){
+            front=0;
+        }
+        else front++;
+        currentSize--;
+        return deItem;
+    }
+
+    public AnyType peek(){//get the item which at front of the queue
+        return theQueue[front];
+    }
+    public boolean isEmpty(){
+        return currentSize==0;
+    }
+}
