@@ -1,0 +1,45 @@
+package LIST;
+
+public class MyLinkedStack<AnyType> extends MyLinkedList {
+    private int theSize;
+
+    public MyLinkedStack(){
+        doClear();
+    }
+    public void clear(){
+        doClear();
+    }
+    public int size(){
+        return theSize;
+    }
+    private void doClear(){
+        beginMarker=new Node(null,null,null);
+        endMarker=new Node(null,beginMarker,null);
+        beginMarker.next=endMarker;
+
+        theSize=0;
+    }
+    public void push(AnyType val){//进栈
+        addBefore(endMarker,val);
+    }
+    private void addBefore(Node<AnyType> p,AnyType val){
+        Node<AnyType> newNode=new Node<>(val,p.pre,p);
+        p.pre.next=newNode;
+        p.pre=newNode;
+        theSize++;
+    }
+    public AnyType pop(){
+        return remove(endMarker.pre);
+    }
+    private AnyType remove(Node<AnyType> p){
+        p.next.pre=p.pre;
+        p.pre.next=p.next;
+        theSize--;
+        return p.data;
+    }
+    public AnyType top(){
+        return endMarker.pre.data;
+    }
+    private Node<AnyType> beginMarker;
+    private Node<AnyType> endMarker;
+}
