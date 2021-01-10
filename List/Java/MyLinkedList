@@ -1,0 +1,92 @@
+package LIST;
+
+public class MyLinkedList<AnyType> implements Iterable<AnyType> {
+    public static class Node<AnyType>{
+        public AnyType data;
+        public Node<AnyType> pre;
+        public Node<AnyType> next;
+
+        public Node(AnyType d,Node<AnyType> p,Node<AnyType> n){
+            data=d;
+            pre=p;
+            next=n;
+        }
+    }
+
+    public MyLinkedList(){
+        doClear();
+    }
+    public void clear(){
+        doClear();
+    }
+    private void doClear(){
+        beginMarker=new Node<AnyType>(null,null,null);
+        endMarker=new Node<AnyType>(null,beginMarker,null);
+        beginMarker.next=endMarker;
+
+        int theSize=0;
+    }
+    public int size(){
+        return theSize;
+    }
+    public boolean isEmpty(){
+        return size()==0;
+    }
+    public AnyType get(int idx){
+        return getNode(idx).data;
+    }
+    private Node<AnyType> getNode(int idx){
+        Node<AnyType> p;
+        p=beginMarker.next;
+        for (int i=0;i<idx;i++){
+            p=p.next;
+        }
+        return p;
+    }
+    public void addAfter(AnyType x){
+        add(size(),x);
+    }
+    public void add(int idx,AnyType x){
+        addBefore(getNode(idx),x);
+    }
+    private void addBefore(Node<AnyType> p,AnyType val){
+        Node<AnyType> newNode=new Node<>(val,p.pre,p);
+        p.pre.next=newNode;
+        p.pre=newNode;
+        theSize++;
+    }
+    public void remove(int idx){
+        remove(getNode(idx));
+    }
+    private void remove(Node<AnyType> p){
+        p.pre.next=p.next;
+        p.next.pre=p.pre;
+        theSize--;
+    }
+    public void set(int idx,AnyType val){
+        getNode(idx).data=val;
+    }
+
+
+    private int theSize;
+    private Node<AnyType> beginMarker;
+    private Node<AnyType> endMarker;
+
+    public java.util.Iterator<AnyType> iterator(){
+        return new LinkedListIterator();
+    }
+    private class LinkedListIterator implements java.util.Iterator<AnyType>{
+        private Node<AnyType> current=beginMarker.next;
+
+        public boolean hasNext(){
+            return current!=endMarker;
+        }
+        public AnyType next(){
+            if(!hasNext())
+                throw new java.util.NoSuchElementException();
+            AnyType nextItem=current.data;
+            current=current.next;
+            return nextItem;
+        }
+    }
+}
