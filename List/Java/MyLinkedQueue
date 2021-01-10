@@ -1,0 +1,43 @@
+package LIST;
+
+public class MyLinkedQueue<AnyType> extends MyLinkedList {
+    private int currentSize;
+    private Node<AnyType> beginMarker;
+    private Node<AnyType> endMarker;
+    public MyLinkedQueue(){
+        doClear();
+    }
+    public void clear(){
+        doClear();
+    }
+    private void doClear(){
+        beginMarker=new Node(null,null,null);
+        endMarker=new Node(null,beginMarker,null);
+        beginMarker.next=endMarker;
+        currentSize=0;
+    }
+    public boolean isEmpty(){
+        return currentSize==0;
+    }
+    public void enQueue(AnyType val){
+        addBefore(endMarker,val);
+    }
+    private void addBefore(Node<AnyType> p,AnyType val){
+        Node<AnyType> newNode=new Node(val,p.pre,p);
+        p.pre.next=newNode;
+        p.pre=newNode;
+        currentSize++;
+    }
+    public AnyType deQueue(){
+        return remove(beginMarker.next);
+    }
+    private AnyType remove(Node<AnyType> p){
+        p.next.pre=p.pre;
+        p.pre.next=p.next;
+        currentSize--;
+        return p.data;
+    }
+    public AnyType peek(){
+        return beginMarker.next.data;
+    }
+}
