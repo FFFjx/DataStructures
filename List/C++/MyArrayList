@@ -1,0 +1,147 @@
+#include<iostream>
+using namespace std;
+
+template<class T>
+class MyArrayList
+{
+public:
+	MyArrayList(void);
+	MyArrayList(int newCap);
+
+	bool IsEmpty(void);
+	void Add(T x); //insert at the end of the list
+	void Add(T x, int idx);//insert at the position whose index=idx
+	T Remove(int idx);
+	T Get(int idx);
+	int GetSize(void);
+
+private:
+	T* theArray;//a pointer which points to theArray[]
+	int size;
+	int capacity;
+	static const int DEFAULT_CAPACITY = 5;
+
+	void EnsureCapacity(int newCap);
+};
+
+template<class T>
+MyArrayList<T>::MyArrayList(void)
+{
+	size = 0;
+	capacity = DEFAULT_CAPACITY;
+	theArray = new T[DEFAULT_CAPACITY];
+}
+
+template<class T>
+MyArrayList<T>::MyArrayList(int newCap)
+{
+	size = 0;
+	capacity = newCap;
+	theArray = new T[newCap];
+}
+
+template<class T>
+bool MyArrayList<T>::IsEmpty(void)
+{
+	return size == 0 ? true : false;
+}
+
+template<class T>
+void MyArrayList<T>::Add(T x)
+{
+	if (size == capacity)
+	{
+		EnsureCapacity(2 * capacity + 1);
+	}
+	theArray[size] = x;
+	size++;
+}
+
+template<class T>
+void MyArrayList<T>::Add(T x, int idx)
+{
+	if (idx > size || idx < 0)//the valid range of idx=[0,size]
+	{
+		throw "Index out of range";
+	}
+	if (size == capacity)
+	{
+		EnsureCapacity(2 * capacity + 1);
+	}
+	for (int i = size; i > idx; i--)
+	{
+		theArray[i] = theArray[i - 1];
+	}
+	theArray[idx] = x;
+	size++;
+}
+
+template<class T>
+T MyArrayList<T>::Remove(int idx)
+{
+	if (idx < 0 || idx >= size)
+	{
+		throw "Index out of range";
+	}
+	T removedItem = theArray[idx];
+	for (int i = idx; i < size - 1; i++)
+	{
+		theArray[i] = theArray[i + 1];
+	}
+	size--;
+	return removedItem;
+}
+
+template<class T>
+T MyArrayList<T>::Get(int idx)
+{
+	if (idx < 0 || idx >= size)
+	{
+		throw "Index out of range";
+	}
+	return theArray[idx];
+}
+
+template<class T>
+int MyArrayList<T>::GetSize(void)
+{
+	return size;
+}
+
+template<class T>
+void MyArrayList<T>::EnsureCapacity(int newCap)
+{
+	T* old = new T[capacity];
+	for (int i = 0; i < size; i++)
+	{
+		*(old + i) = *(theArray + i);
+	}
+	delete[] theArray;
+	theArray = new T[newCap];
+	//memcpy(theArray, old, sizeof old);
+	for (int i = 0; i < size; i++)
+	{
+		*(theArray + i) = *(old + i);
+	}
+	delete[] old;
+}
+
+int main()
+{
+	MyArrayList<int> mylist;
+	cout << mylist.IsEmpty() << endl;
+	mylist.Add(1);
+	mylist.Add(2);
+	mylist.Add(3);
+	mylist.Add(5);
+	mylist.Add(6);
+	mylist.Add(7);
+	mylist.Add(8);
+	cout << mylist.IsEmpty() << endl;
+	cout << mylist.Get(3) << endl;
+	mylist.Remove(2);
+	cout << mylist.Get(2) << endl;
+	cout << mylist.Get(3) << endl;
+	cout << mylist.GetSize() << endl;
+	return 0;
+}
