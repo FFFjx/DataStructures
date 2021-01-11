@@ -1,0 +1,168 @@
+#include<iostream>
+using namespace std;
+
+template <class T>
+struct Node
+{
+public:
+	T val;
+	Node* prev;
+	Node* next;
+	Node(void)
+	{
+		val = NULL;
+		prev = NULL;
+		next = NULL;
+	}
+	Node(const T &val, Node* prev, Node* next)
+	{
+		this->val = val;
+		this->prev = prev;
+		this->next = next;
+	}
+};
+
+template <class T>
+class MyLinkedList
+{
+public:
+	MyLinkedList(void);
+	~MyLinkedList();
+
+	bool isEmpty(void);
+	void add(const T& x);
+	void add(const T& x, int idx);//insert the new node before the node index=idx, the new node's index=idx after insertion
+	T get(int idx);
+	void remove(int idx);
+	void set(const T& x, int idx);
+	int getSize(void);
+	void printList(void);
+
+private:
+	int size;
+	Node<T> *beginMarker;
+	Node<T> *endMarker;
+
+	Node<T>* getNode(int idx)
+	{
+		Node<T>* p = beginMarker->next;
+		for (int i = 0; i < idx; i++)
+		{
+			p = p->next;
+		}
+		return p;
+	}
+	
+};
+
+template<class T>
+MyLinkedList<T>::MyLinkedList(void)
+{
+	size = 0;
+	beginMarker = new Node<T>();
+	endMarker = new Node<T>();
+	endMarker->prev = beginMarker;
+	beginMarker->next = endMarker;
+}
+
+template<class T>
+MyLinkedList<T>::~MyLinkedList()
+{
+	Node<T>* tmp = beginMarker;
+	Node<T>* tmpn = tmp->next;
+	while (tmpn != endMarker)
+	{
+		tmp = tmpn;
+		tmpn = tmpn->next;
+		delete tmp;
+	}
+	delete beginMarker;
+	delete endMarker;
+	beginMarker = NULL;
+	endMarker = NULL;
+}
+
+template<class T>
+bool MyLinkedList<T>::isEmpty(void)
+{
+	return size == 0 ? true : false;
+}
+
+template<class T>
+void MyLinkedList<T>::add(const T& x)
+{
+	Node<T>* p = new Node<T>(x, endMarker->prev, endMarker);
+	p->next->prev = p;
+	p->prev->next = p;
+	size++;
+}
+
+template<class T>
+void MyLinkedList<T>::add(const T& x, int idx)
+{
+	Node<T>* tmp = getNode(idx);
+	Node<T>* p = new Node<T>(x, tmp->prev, tmp);
+	tmp->prev->next = p;
+	tmp->prev = p;
+	size++;
+}
+
+template<class T>
+T MyLinkedList<T>::get(int idx)
+{
+	return getNode(idx)->val;
+}
+
+template<class T>
+void MyLinkedList<T>::remove(int idx)
+{
+	Node<T>* tmp = getNode(idx);
+	tmp->prev->next = tmp->next;
+	tmp->next->prev = tmp->prev;
+	tmp->next = NULL;
+	tmp->prev = NULL;
+	delete tmp;
+	size--;
+}
+
+template<class T>
+void MyLinkedList<T>::set(const T& x, int idx)
+{
+	Node<T>* tmp = getNode(idx);
+	tmp->val = x;
+}
+
+template<class T>
+int MyLinkedList<T>::getSize(void)
+{
+	return size;
+}
+
+template<class T>
+void MyLinkedList<T>::printList(void)
+{
+	Node<T>* p = beginMarker->next;
+	while (p->val != NULL)
+	{
+		cout << p->val << ' ';
+		p = p->next;
+	}
+}
+
+
+int main(void)
+{
+	MyLinkedList<int>* mylist = new MyLinkedList<int>();
+	mylist->add(1);
+	mylist->add(10);
+	mylist->add(100);
+	mylist->add(1000);
+	mylist->add(1000, 1);
+	cout << mylist->getSize() << endl;
+	cout << mylist->get(1) << endl;
+	mylist->printList();
+	cout << '\n';
+	mylist->remove(2);
+	mylist->printList();
+	return 0;
+}
