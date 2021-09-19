@@ -1,0 +1,104 @@
+package HashTable;
+
+import java.util.*;
+
+public class MySeperateHashTable<AnyType> {
+    private static final int DEFAULT_SIZE=10007;
+    private List<AnyType>[] theList;
+    private int theSize;
+
+    public MySeperateHashTable(){
+        this(DEFAULT_SIZE);
+    }
+    public MySeperateHashTable(int size){
+        theList=new LinkedList[size];//next prime
+        for(int i=0;i<theList.length;i++){
+            theList[i]=new LinkedList<>();
+        }
+    }
+
+    public void insert(AnyType val){
+        int hashVal=myhash(val);
+        if(theList[hashVal].contains(val)==false){
+            theList[hashVal].add(val);
+            if(++theSize>theList.length){
+                rehash();
+            }
+        }
+    }
+    public AnyType remove(AnyType val){
+        int hashVal=myhash(val);
+        if(theList[hashVal].contains(val)==true){
+            theList[hashVal].remove(val);
+            theSize--;
+            return val;
+        }
+        else return null;
+    }
+    public boolean contains(AnyType val){
+        int hashVal=myhash(val);
+        return theList[hashVal].contains(val);
+    }
+    public void makeEmpty(){
+        for(int i=0;i<theList.length;i++){
+            theList[i].clear();
+        }
+        theSize=0;
+    }
+
+    private void rehash(){
+        List<AnyType>[] oldLists=theList;
+        theList=new List[nextPrime(2*theList.length)];
+        for(int j=0;j<theList.length;j++){
+            theList[j]=new LinkedList<>();
+        }
+        for(int i=0;i<oldLists.length;i++){
+            for(AnyType x:oldLists[i]){
+                insert(x);
+            }
+        }
+    }
+    private int myhash(AnyType x){
+        int hashVal=x.hashCode();
+        hashVal%=theList.length;
+        if(hashVal<theList.length){
+            hashVal+=theList.length;
+        }
+        if(hashVal>=theList.length){
+            hashVal-=theList.length;
+        }
+        return hashVal;
+    }
+    public int nextPrime(int n){
+        if(n<=1){
+            return 2;
+        }
+        int nextPrime=1;
+        int j = 2*n;
+        for(int i=n;i<j;i++){
+            if(isPrime(i)){
+                nextPrime=i;
+                break;
+            }
+        }
+        return nextPrime;
+    }
+    public boolean isPrime(int n){
+        if(n<=1){
+            return false;
+        }
+        else if(n%2==0){
+            if(n==2){
+                return true;
+            }
+            return false;
+        }
+        int sqrt=(int)Math.sqrt(n);
+        for(int i=3;i<sqrt;i++){
+            if(n%i==0){
+                return false;
+            }
+        }
+        return true;
+    }
+}
