@@ -1,0 +1,126 @@
+package HashTable;
+
+public class MyLinerHashTable<Anytype> {
+    private static final int DEFAULT_SIZE=10007;
+    private hashNode<Anytype>[] theNode;
+    private int theSize;
+
+    public MyLinerHashTable(){
+        this(DEFAULT_SIZE);
+    }
+    public MyLinerHashTable(int size){
+        theNode=new hashNode[nextPrime(size)];
+        makeEmpty();
+    }
+    public void makeEmpty(){
+        for(int i=0;i<theNode.length;i++){
+            theNode[i]=null;
+        }
+        theSize=0;
+    }
+    private static class hashNode<AnyType>{
+        public hashNode(AnyType ele){
+            this(ele,true);
+        }
+        public hashNode(AnyType ele,boolean i){
+            element=ele;
+            isActive=i;
+        }
+
+        private AnyType element;
+        private boolean isActive;
+    }
+
+    public void insert(Anytype x){
+        int currentPos=findPos(x);
+        if(isActive(currentPos)){
+            return;
+        }
+        theNode[currentPos]=new hashNode(x);
+        if(++theSize>theNode.length/2){
+            rehash();
+        }
+    }
+    public void remove(Anytype x){
+        int currentPos=findPos(x);
+        if(!isActive(currentPos)){
+            return;
+        }
+        theNode[currentPos].isActive=false;
+    }
+    public boolean contains(Anytype x){
+        int currentPos=findPos(x);
+        return isActive(currentPos);
+    }
+
+    private int findPos(Anytype ele){
+        int hashVal=myHash(ele);
+        int offset=1;
+        while(theNode[hashVal]!=null&&!theNode[hashVal].element.equals(ele)){
+            hashVal+=offset;
+            offset+=2;
+            if(hashVal>=theNode.length){
+                hashVal-=theNode.length;
+            }
+        }
+        return hashVal;
+    }
+
+    private boolean isActive(int currentPos){
+        return theNode[currentPos]!=null&&theNode[currentPos].isActive;
+    }
+    private void rehash(){
+        hashNode<Anytype>[] oldNode=theNode;
+        theNode=new hashNode[nextPrime(2*oldNode.length)];
+        for(int i=0;i<oldNode.length;i++){
+            if(oldNode[i]!=null&&oldNode[i].isActive){
+                insert(oldNode[i].element);
+            }
+        }
+    }
+
+    //hashCode
+    private int myHash(Anytype x){
+        int hashVal=x.hashCode();
+        hashVal%=theNode.length;
+        if(hashVal<theNode.length){
+            hashVal+=theNode.length;
+        }
+        if(hashVal>=theNode.length){
+            hashVal-=theNode.length;
+        }
+        return hashVal;
+    }
+    public int nextPrime(int n){
+        if(n<=1){
+            return 2;
+        }
+        int nextPrime=1;
+        int j = 2*n;
+        for(int i=n;i<j;i++){
+            if(isPrime(i)){
+                nextPrime=i;
+                break;
+            }
+        }
+        return nextPrime;
+    }
+    public boolean isPrime(int n){
+        if(n<=1){
+            return false;
+        }
+        else if(n%2==0){
+            if(n==2){
+                return true;
+            }
+            return false;
+        }
+        int sqrt=(int)Math.sqrt(n);
+        for(int i=3;i<sqrt;i++){
+            if(n%i==0){
+                return false;
+            }
+        }
+        return true;
+    }
+}
