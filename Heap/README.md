@@ -21,3 +21,5 @@ i/2位置上。该数组还有一个位置0省去不用，是为了计算更加�
 - findMin()：返回根节点的元素。
 - deleteMin()：返回根节点的元素，然后把数组最后一个元素放置到根节点的位置，对根节点调用下滤percolateDown(1)
 ## 实现结果展示
+![测试程序](https://github.com/FFFjx/DataStructures/blob/main/Heap/Heap_test.png)
+![测试结果](https://github.com/FFFjx/DataStructures/blob/main/Heap/Heap.png)
