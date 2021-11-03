@@ -39,7 +39,11 @@ $\delta_1(i)=\pi _i \dot b_i(o_1),i=1,2,...,N$；$\phi _1(i)=0,i=1,2,...,N$，�
 以此类推到最初时刻1。
 ## 实现结果
 ### 01背包问题
-
+![测试程序](https://github.com/FFFjx/DataStructures/blob/main/DP/01package_test.png)
+![测试结果](https://github.com/FFFjx/DataStructures/blob/main/DP/01package.png)
 ### 最长递增子序列
-
+![测试程序](https://github.com/FFFjx/DataStructures/blob/main/DP/LIS_test.png)
+![测试结果](https://github.com/FFFjx/DataStructures/blob/main/DP/LIS.png)
 ### 维特比算法
+![测试程序](https://github.com/FFFjx/DataStructures/blob/main/DP/Viterbi_test.png)
+![测试结果](https://github.com/FFFjx/DataStructures/blob/main/DP/Viterbi.png)
