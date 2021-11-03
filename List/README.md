@@ -37,3 +37,6 @@ pop（出栈）、top（查找顶栈元素）。
 - 删/出队(deQueue)：删除队头的元素。ArrayQueue删除数组的第一个元素，并将后面的元素全部往前移一位；LinkedQueue可以直接删除头节点
 后面一个位置的节点。
 ## 运行时间对比
+![List](https://github.com/FFFjx/DataStructures/blob/main/List/List.png)
+![Stack](https://github.com/FFFjx/DataStructures/blob/main/List/Stack.png)
+![Queue](https://github.com/FFFjx/DataStructures/blob/main/List/Queue.png)
