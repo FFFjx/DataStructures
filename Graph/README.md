@@ -69,7 +69,7 @@ DFS的运行结果如上图所示，最终该图的DFS顺序为A B F H G C D E
 根据运行结果画出该图的DFS搜索顺序如上图所示，对比发现无误。
 ### 最小生成树
 ![MST](https://github.com/FFFjx/DataStructures/blob/main/Graph/pic/Kruskal-example.jpg)  
-给定一幅无向图$G=(V,E)$，如上图展示所示，该图共有7个顶点，9条边，边权标注在对应的边上，使用Prim算法和Kruskal算法分别求该图的最小生成树：
+给定一幅无向图$G=(V,E)$，如上图展示所示，该图共有7个顶点，9条边，边权标注在对应的边上，使用Prim算法和Kruskal算法分别求该图的最小生成树：  
 ![Prim](https://github.com/FFFjx/DataStructures/blob/main/Graph/pic/Primresult.png)  
 Prim算法程序运行结果如上图所示。  
 ![Prim](https://github.com/FFFjx/DataStructures/blob/main/Graph/pic/Kruskalresult.jpg)  
